@@ -1,0 +1,25 @@
+mqtt:
+  broker: !env_var MQTT_BROKER
+  port: !env_var MQTT_PORT
+  discovery: true
+  discovery_prefix: homeassistant
+
+# Optional: Add default Lovelace dashboard
+lovelace:
+  mode: yaml
+  dashboards:
+    default:
+      mode: yaml
+      filename: ui-lovelace.yaml
+
+# Optional: Include secrets
+homeassistant:
+  name: HiveSense
+  latitude: 0
+  longitude: 0
+  elevation: 0
+  unit_system: metric
+  time_zone: !env_var TZ
+  external_url: "http://homeassistant.local:8123"
+  allowlist_external_dirs:
+    - "/config/www"
