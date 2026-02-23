@@ -1,39 +1,57 @@
 title: HiveSense Dashboard
+
 views:
   - title: Hives
     path: hives
     icon: mdi:bee
-    badges: []
+
     cards:
       - type: custom:auto-entities
         card:
-          type: vertical-stack
-          title: All Beehives
+          type: entities
+          title: 🐝 Active Beehives
         filter:
           include:
-            - entity_id: sensor.*broodbox_temperature
-            - entity_id: sensor.*humidity
-            - entity_id: sensor.*air_temperature
-            - entity_id: sensor.*pressure
+            - domain: sensor
+              attributes:
+                device_class: temperature
         sort:
           method: name
-        card_param: cards
-        # Template for each entity
+        card_param: entities
+        unique: true
         options:
-          type: vertical-stack
-          cards:
-            - type: gauge
-              entity: "{{ entity_id }}"
-              name: "{{ name }}"
-              min: 0
-              max: 50
-              severity:
-                green: 30
-                yellow: 35
-                red: 40
-            - type: history-graph
-              title: "{{ name }} History"
-              entities:
-                - "{{ entity_id }}"
-              hours_to_show: 24
-              refresh_interval: 60
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: >
+              {{ state_attr(entity_id, 'device_name') if state_attr(entity_id, 'device_name') else name }}
+          entities:
+            - type: custom:auto-entities
+              card:
+                type: grid
+                columns: 2
+                square: false
+              filter:
+                include:
+                  - device: "{{ device_id }}"
+                    domain: sensor
+              card_param: cards
+              options:
+                type: gauge
+                min: 0
+                max: 50
+                severity:
+                  green: 30
+                  yellow: 35
+                  red: 40
+
+            - type: custom:auto-entities
+              card:
+                type: history-graph
+                hours_to_show: 24
+                refresh_interval: 60
+              filter:
+                include:
+                  - device: "{{ device_id }}"
+                    domain: sensor
+              card_param: entities
