@@ -9,7 +9,7 @@ echo "======================================"
 # -----------------------------
 # Configuration
 # -----------------------------
-REPO_URL="https://github.com/<YOUR_USERNAME>/hivesense.git"
+REPO_URL="https://github.com/tlharvel/hivesense.git"
 INSTALL_DIR="$HOME/hivesense"
 
 # -----------------------------
